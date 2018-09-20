@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"gopkg.in/yaml.v2"
 )
 
@@ -25,12 +26,17 @@ softwares:
   - name: 'Blender rrrrr'
     dir: 'Blender'
   - name: 'Cyrillo '
-    dir: 'cyc'
+    dir: 'cyril'
     projects:
       - filename: ziom
         pinned: true
         text: loving this one
+    project_dirs:
+      - 'data'
+    projects_in_dirs: true
 `
+
+// Todo add multiline variables
 
 type ConfigSoftwareProject struct {
 	Filename string
@@ -39,9 +45,11 @@ type ConfigSoftwareProject struct {
 }
 
 type ConfigSoftware struct {
-	Name     string
-	Dir      string
-	Projects []ConfigSoftwareProject
+	Name             string
+	Dir              string
+	Projects         []ConfigSoftwareProject
+	Project_dirs     []string
+	Projects_in_dirs bool
 }
 
 type Config struct {
@@ -75,6 +83,8 @@ func main() {
 	for _, software := range config.Softwares {
 		fmt.Printf("  softwares[].name: %v\n", software.Name)
 		fmt.Printf("  softwares[].dir: %v\n", software.Dir)
+		fmt.Printf("  softwares[].project_dirs: %v\n", software.Project_dirs)
+		fmt.Printf("  softwares[].projects_in_dirs: %v\n", software.Projects_in_dirs)
 
 		for _, softwareProject := range software.Projects {
 			fmt.Printf("  softwares[].projects[].filename: %v\n", softwareProject.Filename)
